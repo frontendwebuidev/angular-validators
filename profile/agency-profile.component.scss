@@ -1,0 +1,29 @@
+.border-dotted-1{
+    border:2px dotted #ccc;
+}
+.details{
+    width: 47%;
+}
+
+.doc-container{
+  position: relative;
+  width: 100%;
+  // max-width: 600px;
+  overflow: hidden;
+  display: block;
+  height: 60vh;
+}
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  bottom: 0;
+  right: 1.5rem;
+  width: calc(100% - 3rem);
+  height: 60vh;
+  border: none;
+  display: block;
+}
+::ng-deep .modal-dialog {
+    max-width: 650px !important;
+}

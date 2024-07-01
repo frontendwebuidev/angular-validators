@@ -1,0 +1,940 @@
+<div class="col-12">
+  <h1 class="page-heading pb-4"> Agency Profile</h1>
+</div>
+<ng-container *ngIf="user?.status?.title === 'Rejected'">
+  <div class="alert alert-danger text-center mb-15">
+    <h2>Application rejected:</h2>
+    <p> {{user?.rejection_reason}} </p>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="user?.status?.title === 'Pending'">
+  <div class="alert alert-danger text-center mb-15">
+    <h2>Your account is under review</h2>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="user?.status?.title === 'Inactive'">
+  <div class="alert alert-danger text-center mb-15">
+    <h2>Your account is inactive</h2>
+  </div>
+</ng-container>
+
+<div class="active" *ngIf="user?.status?.title === 'Active'">
+  <app-agency-update></app-agency-update>
+  <!-- <form [formGroup]="updateProfile" (ngSubmit)="updateProfileFn()">
+    <div class="card">
+      <div class="card-body p-0 pt-5 d-flex flex-wrap">
+        <div class="col-sm-6 col-md-7 col-12 ps-5 pe-5">
+          <div class="row">
+
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Organization's Name</label>
+
+              <input class="form-control bg-transparent" value="{{user.user_details.organization_name}}" type="text"
+                placeholder="Organization's Name" autocomplete="off" readonly />
+            </div>
+            <div class="col-12 mb-8">
+              <div class="row">
+                <div class="col-md-6 mb-8">
+                  <label #appartment class="form-label required fs-6 text-dark">Apartment</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent editable" type="text" formControlName="apartment"
+                    placeholder="Apartment" [ngClass]="{
+                    'is-invalid': updateProfile.controls['apartment'].invalid && updateProfile.controls['apartment'].touched,
+                    'is-valid': updateProfile.controls['apartment'].valid && !isEditableForm}" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Apartment details is required',
+                    control: updateProfile.controls['apartment']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'whitespace',
+                    message: 'Apartment details is required',
+                    control: updateProfile.controls['apartment']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6 mb-8">
+                  <label class="form-label required fs-6 text-dark">Street Name</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent editable" type="text" formControlName="streetName"
+                    placeholder="Street Name" [ngClass]="{
+                    'is-invalid': updateProfile.controls['streetName'].invalid && updateProfile.controls['streetName'].touched,
+                    'is-valid': updateProfile.controls['streetName'].valid && !isEditableForm}" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Street name is required',
+                    control: updateProfile.controls['streetName']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'whitespace',
+                    message: 'Street name is required',
+                    control: updateProfile.controls['streetName']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6 mb-8">
+                  <label class="form-label required fs-6 text-dark">Locality</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent editable" type="text" formControlName="locality"
+                    placeholder="Locality" [ngClass]="{
+                    'is-invalid': updateProfile.controls['locality'].invalid && updateProfile.controls['locality'].touched,
+                    'is-valid': updateProfile.controls['locality'].valid && !isEditableForm}" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Locality is required',
+                    control: updateProfile.controls['locality']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'whitespace',
+                    message: 'Locality is required',
+                    control: updateProfile.controls['locality']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6 mb-8">
+                  <label class="form-label required fs-6 text-dark">Village</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent editable" type="text" formControlName="village"
+                    placeholder="Village" [ngClass]="{
+                    'is-invalid': updateProfile.controls['village'].invalid && updateProfile.controls['village'].touched,
+                    'is-valid': updateProfile.controls['village'].valid && !isEditableForm}" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Village is required',
+                    control: updateProfile.controls['village']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'whitespace',
+                    message: 'Village is required',
+                    control: updateProfile.controls['village']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6 mb-8">
+                  <label class="form-label required fs-5 text-dark">District</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent" type="text" placeholder="District"
+                    formControlName="district" autocomplete="off" [ngClass]="{
+                    'is-invalid': updateProfile.controls['district'].invalid && updateProfile.controls['district'].touched,
+                    'is-valid': updateProfile.controls['district'].valid && !isEditableForm}" onkeypress="
+                      if (!((event.charCode >= 65 && event.charCode <= 90) ||
+                            (event.charCode >= 97 && event.charCode <= 122) ||
+                            (event.charCode >= 33 && event.charCode <= 47) ||
+                            (event.charCode >= 58 && event.charCode <= 64) ||
+                            (event.charCode >= 91 && event.charCode <= 96) ||
+                            (event.charCode >= 123 && event.charCode <= 126) ||
+                            (event.charCode === 32) &&
+                            !(event.charCode >= 48 && event.charCode <= 57))) {
+                            event.preventDefault(); }" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'District is required',
+                    control: updateProfile.controls['district']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'invalidChars',
+                    message: 'Invalid District',
+                    control: updateProfile.controls['district']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6 mb-8">
+                  <label class="form-label required fs-6 text-dark">Postal Code</label>
+                  <input [readOnly]="!isEditableForm" class="form-control bg-transparent editable" type="text" formControlName="postalCode"
+                    placeholder="Postal Code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                    onpaste="return false" [ngClass]="{
+                    'is-invalid': updateProfile.controls['postalCode'].invalid && updateProfile.controls['postalCode'].touched,
+                    'is-valid': updateProfile.controls['postalCode'].valid && !isEditableForm}">
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Postal Code is required',
+                    control: updateProfile.controls['postalCode']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'invalidNumber',
+                    message: 'Invalid Postal code',
+                    control: updateProfile.controls['postalCode']}">
+                  </ng-container>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fs-6 text-dark">Position</label>
+                  <input class="form-control bg-transparent" type="text" value="{{user.user_details.position}}"
+                    placeholder="Position" autocomplete="off" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fs-6 text-dark">Country</label>
+                  <input class="form-control bg-transparent" type="text"
+                    value="{{user.user_details.organization_address.country}}" placeholder="Country" autocomplete="off"
+                    readonly>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mb-8">
+              <label class="form-label required fs-6 text-dark">Phone Number</label>
+              <input [readOnly]="!isEditableForm" class="form-control bg-transparent" type="text" formControlName="phone_number"
+                placeholder="Phone Number" autocomplete="off" onpaste="return false" [ngClass]="{
+                'is-invalid': updateProfile.controls['phone_number'].invalid && updateProfile.controls['phone_number'].touched,
+                'is-valid': updateProfile.controls['phone_number'].valid && !isEditableForm}">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Phone number is required',
+                control: updateProfile.controls['phone_number']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'invalidPhoneNumber',
+                message: 'Enter valid phone number',
+                control: updateProfile.controls['phone_number']}">
+              </ng-container>
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">BRN</label>
+              <input class="form-control bg-transparent" type="text" value="{{user.user_details.brn_number}}"
+                placeholder="BRN" autocomplete="off" readonly>
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Name of the Applicant</label>
+              <input class="form-control bg-transparent" value="{{user.user_details.applicant_name}}" type="text"
+                placeholder="Applicant Name" autocomplete="off" readonly>
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">National ID Number</label>
+              <input class="form-control bg-transparent" value="{{user.user_details.national_id}}" type="text"
+                placeholder="National ID Number" autocomplete="off" readonly>
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Email Address</label>
+              <input class="form-control bg-transparent" type="text" value="{{user.email}}" placeholder="Email Address"
+                autocomplete="off" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-5 col-12 ps-5 pe-5">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="mb-8">Upload Supporting Documents</h4>
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Applicant's identity card or applicant passport for citizen
+                outside Mauritius without identity card <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.identity_card_file1)}}">View
+                  File</a></span></label>
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Business Registration Certificate <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.business_registration_certificate_doc)}}">View
+                File</a></span></label>
+
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Identity card and passport of authorized signatory <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.authorize_signatory_doc)}}">View
+                File</a></span></label>
+
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">A notarized board resolution for the authorized <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.notarized_board_resolution_doc)}}">View
+                File</a></span></label>
+
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Authorization of authorized signatory of power of attorney for
+                applicant <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.power_of_atorny_doc)}}">View
+                  File</a></span></label>
+
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+            <div class="col-12 mb-8">
+              <label class="form-label fs-6 text-dark">Registration of agency as data controller with DPO <span class="ms-3"><a class="btn btn-link text-primary fw-bold p-0" target="_blank" href="{{openModal(user.user_details.agency_dpo)}}">View
+                File</a></span></label>
+
+              <input class="form-control bg-transparent" type="file" autocomplete="off" [attr.disabled]="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button *ngIf="!isEditableForm" type="button" class="btn btn-primary m-3" (click)="enableEditableFields()">Edit</button>
+        <button *ngIf="isEditableForm" type="submit" class="btn btn-primary m-3" [disabled]="updateProfile.invalid">
+
+          <ng-container *ngIf="( (isLoading$ | async) === false)">
+            <span class="indicator-label"> Update </span>
+          </ng-container>
+          <ng-container *ngIf="isLoading$ | async">
+            <span class="indicator-progress" [style.display]="'block'">
+              Please wait...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </ng-container>
+        </button>
+      </div>
+
+    </div>
+
+  </form> -->
+</div>
+
+<div *ngIf="user?.status?.title !== 'Active'">
+  <div [class.d-none]="currentStep$.value !== 1">
+    <form [formGroup]="registerAgency">
+      <div class="card">
+        <div class="card-body p-0 pt-5 d-flex flex-wrap">
+          <div class="col-sm-6 col-md-7 col-12 ps-5 pe-5">
+            <div class="row">
+              <!-- <div class="col-12">
+                <h4 class="mb-3">Register as Agency</h4>
+              </div> -->
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Organization's Name</label>
+                <!--  name="organizationName" -->
+                <input class="form-control bg-transparent" formControlName="organization_name" type="text"
+                  placeholder="Organization's Name" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['organization_name'].invalid && registerAgency.controls['organization_name'].touched,
+                    'is-valid': registerAgency.controls['organization_name'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Organization\'s Name is required',
+                      control: registerAgency.controls['organization_name']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'whitespace',
+                      message: 'Organization\'s Name is required',
+                      control: registerAgency.controls['organization_name']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <div class="row">
+                  <div class="col-md-6 mb-8">
+                    <label #appartment class="form-label fs-6 text-dark">Apartment</label>
+                    <input class="form-control bg-transparent editable" type="text" formControlName="apartment"
+                      placeholder="Apartment" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Apartment details is required',
+                      control: registerAgency.controls['apartment']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'whitespace',
+                      message: 'Apartment has no whitespace.',
+                      control: registerAgency.controls['apartment']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6 mb-8">
+                    <label class="form-label required fs-6 text-dark">Street Name</label>
+                    <input class="form-control bg-transparent editable" type="text" formControlName="streetName"
+                      placeholder="Street Name" [ngClass]="{
+                      'is-invalid': registerAgency.controls['streetName'].invalid && registerAgency.controls['streetName'].touched,
+                      'is-valid': registerAgency.controls['streetName'].valid}" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Street name is required',
+                      control: registerAgency.controls['streetName']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'whitespace',
+                      message: 'Street name is required',
+                      control: registerAgency.controls['streetName']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6 mb-8">
+                    <label class="form-label required fs-6 text-dark">Locality</label>
+                    <input class="form-control bg-transparent editable" type="text" formControlName="locality"
+                      placeholder="Locality" [ngClass]="{
+                      'is-invalid': registerAgency.controls['locality'].invalid && registerAgency.controls['locality'].touched,
+                      'is-valid': registerAgency.controls['locality'].valid}" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Locality is required',
+                      control: registerAgency.controls['locality']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'whitespace',
+                      message: 'Locality is required',
+                      control: registerAgency.controls['locality']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6 mb-8">
+                    <label class="form-label required fs-6 text-dark">Village</label>
+                    <input class="form-control bg-transparent editable" type="text" formControlName="village"
+                      placeholder="Village" [ngClass]="{
+                      'is-invalid': registerAgency.controls['village'].invalid && registerAgency.controls['village'].touched,
+                      'is-valid': registerAgency.controls['village'].valid}" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Village is required',
+                      control: registerAgency.controls['village']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'whitespace',
+                      message: 'Village is required',
+                      control: registerAgency.controls['village']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6 mb-8">
+                    <label class="form-label required fs-5 text-dark">District</label>
+                    <input class="form-control bg-transparent" type="text" placeholder="District"
+                      formControlName="district" autocomplete="off" [ngClass]="{
+                                        'is-invalid': registerAgency.controls['district'].invalid && registerAgency.controls['district'].touched,
+                                        'is-valid': registerAgency.controls['district'].valid}" onkeypress="
+                      if (!((event.charCode >= 65 && event.charCode <= 90) ||
+                            (event.charCode >= 97 && event.charCode <= 122) ||
+                            (event.charCode >= 33 && event.charCode <= 47) ||
+                            (event.charCode >= 58 && event.charCode <= 64) ||
+                            (event.charCode >= 91 && event.charCode <= 96) ||
+                            (event.charCode >= 123 && event.charCode <= 126) ||
+                            (event.charCode === 32) &&
+                            !(event.charCode >= 48 && event.charCode <= 57))) {
+                            event.preventDefault(); }" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'District is required',
+                      control: registerAgency.controls['district']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'invalidChars',
+                      message: 'Invalid District',
+                      control: registerAgency.controls['district']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6 mb-8">
+                    <label class="form-label required fs-6 text-dark">Postal Code</label>
+                    <input class="form-control bg-transparent editable" type="text" formControlName="postalCode"
+                      placeholder="Postal Code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                      onpaste="return false" [ngClass]="{
+                      'is-invalid': registerAgency.controls['postalCode'].invalid && registerAgency.controls['postalCode'].touched,
+                      'is-valid': registerAgency.controls['postalCode'].valid}">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Postal Code is required',
+                      control: registerAgency.controls['postalCode']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'invalidNumber',
+                      message: 'Invalid postal Code',
+                      control: registerAgency.controls['postalCode']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label required fs-6 text-dark">Position</label>
+                    <input class="form-control bg-transparent" type="text" formControlName="position"
+                      onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 32"
+                      placeholder="Position" autocomplete="off" [ngClass]="{
+                      'is-invalid': registerAgency.controls['position'].invalid && registerAgency.controls['position'].touched,
+                      'is-valid': registerAgency.controls['position'].valid}">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Position is required',
+                      control: registerAgency.controls['position']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'alphabet',
+                      message: 'Invalid Position',
+                      control: registerAgency.controls['position']}">
+                    </ng-container>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label required fs-5 text-dark">Country</label>
+                    <select class="form-control bg-transparent" formControlName="country" [ngClass]="{
+                        'is-invalid': registerAgency.controls['country'].invalid && registerAgency.controls['country'].touched,
+                        'is-valid': registerAgency.controls['country'].valid}">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'Country is required',
+                        control: registerAgency.controls['country']}">
+                      </ng-container>
+                      <option value="">Select Your Country</option>
+                      <option *ngFor="let item of countries" [value]="item.value">{{item.value}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Phone Number</label>
+                <input class="form-control bg-transparent" type="text" formControlName="phone_number"
+                  placeholder="Phone Number" autocomplete="off" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||
+                  (event.charCode >= 33 && event.charCode <= 47)" onpaste="return false" [ngClass]="{
+                  'is-invalid': registerAgency.controls['phone_number'].invalid && registerAgency.controls['phone_number'].touched,
+                  'is-valid': registerAgency.controls['phone_number'].valid}">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Phone number is required',
+                  control: registerAgency.controls['phone_number']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidPhoneNumber',
+                  message: 'Invalid Phone Number',
+                  control: registerAgency.controls['phone_number']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">BRN</label>
+                <input class="form-control bg-transparent" type="text" formControlName="brn_number" placeholder="BRN"
+                  autocomplete="off" onpaste="return false" [ngClass]="{
+                  'is-invalid': registerAgency.controls['brn_number'].invalid && registerAgency.controls['brn_number'].touched,
+                  'is-valid': registerAgency.controls['brn_number'].valid}" onkeypress="return (
+                  (event.charCode >= 48 && event.charCode <= 57) ||
+                  (event.charCode >= 65 && event.charCode <= 90) ||
+                  (event.charCode >= 97 && event.charCode <= 122))">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'BRN number is required',
+                  control: registerAgency.controls['brn_number']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidAlphaNumeric',
+                  message: 'Invalid BRN Number',
+                  control: registerAgency.controls['brn_number']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Name of the Applicant</label>
+                <input class="form-control bg-transparent" formControlName="applicant_name" type="text"
+                  placeholder="Applicant Name" autocomplete="off" [ngClass]="{
+                  'is-invalid': registerAgency.controls['applicant_name'].invalid && registerAgency.controls['applicant_name'].touched,
+                  'is-valid': registerAgency.controls['applicant_name'].valid}" onkeypress="
+                      if (!((event.charCode >= 65 && event.charCode <= 90) ||
+                            (event.charCode >= 97 && event.charCode <= 122) ||
+                            (event.charCode >= 33 && event.charCode <= 47) ||
+                            (event.charCode >= 58 && event.charCode <= 64) ||
+                            (event.charCode >= 91 && event.charCode <= 96) ||
+                            (event.charCode >= 123 && event.charCode <= 126) ||
+                            (event.charCode === 32) &&
+                            !(event.charCode >= 48 && event.charCode <= 57))) {
+                            event.preventDefault(); }">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Applicant name is required',
+                  control: registerAgency.controls['applicant_name']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidChars',
+                  message: 'Invalid Applicant Name',
+                  control: registerAgency.controls['applicant_name']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">National ID Number</label>
+                <input class="form-control bg-transparent" formControlName="national_id" type="text"
+                  placeholder="National ID Number" autocomplete="off" onpaste="return false" [ngClass]="{
+                  'is-invalid': registerAgency.controls['national_id'].invalid && registerAgency.controls['national_id'].touched,
+                  'is-valid': registerAgency.controls['national_id'].valid}" onkeypress="return (
+                  (event.charCode >= 48 && event.charCode <= 57) ||
+                  (event.charCode >= 65 && event.charCode <= 90) ||
+                  (event.charCode >= 97 && event.charCode <= 122))">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'NIN number is required',
+                  control: registerAgency.controls['national_id']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidAlphaNumeric',
+                  message: 'Invalid NIN number',
+                  control: registerAgency.controls['national_id']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidNIN',
+                  message: 'Please enter a valid NIN number',
+                  control: registerAgency.controls['national_id']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'invalidLength',
+                  message: 'The NIN is of 14 digits',
+                  control: registerAgency.controls['national_id']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label fs-6 text-dark">Email Address</label>
+                <input class="form-control bg-transparent" type="text" value="{{user.email}}"
+                  placeholder="Email Address" autocomplete="off" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-5 col-12 ps-5 pe-5">
+            <div class="row">
+              <div class="col-12">
+                <h4 class="mb-8">Upload Supporting Documents</h4>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Applicant's identity card or applicant passport for
+                  citizen outside Mauritius without identity card</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.identity_card_file1)"
+                    >Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="identity_card_file1" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['identity_card_file1'].invalid && registerAgency.controls['identity_card_file1'].touched,
+                    'is-valid': registerAgency.controls['identity_card_file1'].valid}" />
+
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['identity_card_file1']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Identity card required',
+                      control: registerAgency.controls['identity_card_file1']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['identity_card_file1']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Business Registration Certificate</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.business_registration_certificate_doc)"
+                    target="_blank">Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="business_registration_certificate_doc" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['business_registration_certificate_doc'].invalid &&
+                    registerAgency.controls['business_registration_certificate_doc'].touched,
+                    'is-valid': registerAgency.controls['business_registration_certificate_doc'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['business_registration_certificate_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Business registration certificate is required',
+                      control: registerAgency.controls['business_registration_certificate_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['business_registration_certificate_doc']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Identity card and passport of authorized
+                  signatory</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.authorize_signatory_doc)"
+                    target="_blank">Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="authorize_signatory_doc" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['authorize_signatory_doc'].invalid &&
+                    registerAgency.controls['authorize_signatory_doc'].touched,
+                    'is-valid': registerAgency.controls['authorize_signatory_doc'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['authorize_signatory_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Authorize signatory document is required',
+                      control: registerAgency.controls['authorize_signatory_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['authorize_signatory_doc']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">A notarized board resolution for the
+                  authorized</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.notarized_board_resolution_doc)"
+                    target="_blank">Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="notarized_board_resolution_doc" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['notarized_board_resolution_doc'].invalid &&
+                    registerAgency.controls['notarized_board_resolution_doc'].touched,
+                    'is-valid': registerAgency.controls['notarized_board_resolution_doc'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['notarized_board_resolution_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Notarized board resolution document is required',
+                      control: registerAgency.controls['notarized_board_resolution_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['notarized_board_resolution_doc']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Authorization of authorized signatory of power of
+                  attorney for applicant</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.power_of_atorny_doc)"
+                    target="_blank">Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="power_of_atorny_doc" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['power_of_atorny_doc'].invalid &&
+                    registerAgency.controls['power_of_atorny_doc'].touched,
+                    'is-valid': registerAgency.controls['power_of_atorny_doc'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['power_of_atorny_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Power of atorny document is required',
+                      control: registerAgency.controls['power_of_atorny_doc']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['power_of_atorny_doc']}">
+                </ng-container>
+              </div>
+              <div class="col-12 mb-8">
+                <label class="form-label required fs-6 text-dark">Registration of agency as data controller with
+                  DPO</label>
+                <span><a class="cursor-pointer" (click)="downloadDocument(user.user_details.agency_dpo)" target="_blank">Download</a></span>
+                <input class="form-control bg-transparent" type="file" (change)="onFileChange($event);"
+                  formControlName="agency_dpo" autocomplete="off" [ngClass]="{
+                    'is-invalid': registerAgency.controls['agency_dpo'].invalid && registerAgency.controls['agency_dpo'].touched,
+                    'is-valid': registerAgency.controls['agency_dpo'].valid}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported attachment format (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: registerAgency.controls['agency_dpo']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Agency DPO document is required',
+                      control: registerAgency.controls['agency_dpo']}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'fileSizeExceeded',
+                  message: 'File Size should not exceed 5 MB!',
+                  control: registerAgency.controls['agency_dpo']}">
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div [class.d-none]="currentStep$.value !== 2">
+    <form [formGroup]="subscriptionForm">
+      <div class="row mx-0 my-10">
+        <div class="col-12">
+          <p class="fs-3 fw-bold">Subscription <span class="fs-5">(Choose the SDK options that you want data for)</span>
+          </p>
+          <div class="mt-4">
+            <div class="card" style="background: #0056b5;">
+              <div class="card-body p-4">
+                <ul>
+                  <li class="fw-semibold text-light">You must select at least 1 SDK</li>
+                  <li class="fw-semibold text-light">The price of each SDK is MUR 10,000</li>
+                  <li class="fw-semibold text-light">Validity of each SDK is 12 months (1 year)</li>
+                  <li class="fw-semibold text-light">Payment will be made after approval</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mx-1 my-10">
+        <div class="col-xl-10 col-md-12">
+          <div class="row">
+            <div class="card h-100 shadow border-0 my-2" *ngFor="let item of subscriptionDetails;let i = index;">
+              <div class="card-body py-4" formArrayName="subscription">
+                 <div class="d-md-flex justify-content-start gap-3" [formGroupName]="i">
+                    <div class="form-check mb-md-0 mb-3">
+                      <input class="form-check-input" type="checkbox" formControlName="checked" (change)="onChange(item.id,i)">
+                    </div>
+                    <div class="details">
+                       <h5 class="text-black fs-5 mb-1">{{item.name}}</h5>
+                       <h6 class="text-dark fs-5 mb-1">Cost: {{item.price}}/ {{item.plan_period}}</h6>
+                       <p class="fw-semibold fs-6 m-0">{{item.short_description}}</p>
+                    </div>
+                    <div class="form-group w-md-50 w-100" *ngIf="subscriptinControl.value[i]?.checked">
+                        <label class="form-label fs-6 text-dark required">Purpose/Reason for reading data item</label>
+                        <textarea formControlName="reason" placeholder="Describe the issue" class="form-control w-100">          </textarea>
+                   </div>
+                   <div class="form-group w-md-50 w-lg-25 w-100" *ngIf="subscriptinControl.value[i]?.checked">
+                        <h6 class="text-dark fs-5 mb-1 text-end">Cost (Rs) Inc VAT</h6>
+                        <p class="text-end">{{((+item.price)+(item.price * 15 / 100)).toFixed(2)}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="card h-100 shadow border-0 my-2" style="opacity: .7; cursor: not-allowed;">
+            <div class="card-body py-4">
+               <div class="d-md-flex justify-content-start gap-3">
+                  <div class="form-check mb-md-0 mb-3">
+                    <input class="form-check-input" type="checkbox" [disabled]="true">
+                  </div>
+                  <div class="details">
+                     <h5 class="text-black fs-5 mb-1">Mobile number</h5>
+                     <h6 class="text-dark fs-5 mb-1">Cost: 10000.00/ 1 Yea</h6>
+                     <p class="fw-semibold fs-6 m-0">Mobile number of the cardholder</p>
+                  </div>
+                  <!-- <div class="form-group w-md-50 w-100" *ngIf="subscriptinControl.value[i]?.checked">
+                      <label class="form-label fs-6 text-dark required">Purpose/Reason for reading data item</label>
+                      <textarea formControlName="reason" placeholder="Describe the issue" class="form-control w-100">          </textarea>
+                 </div> -->
+               </div>
+            </div>
+         </div>
+         <div class="card h-100 shadow border-0 my-2" style="opacity: .7; cursor: not-allowed;">
+          <div class="card-body py-4">
+             <div class="d-md-flex justify-content-start gap-3">
+                <div class="form-check mb-md-0 mb-3">
+                  <input class="form-check-input" type="checkbox" [disabled]="true">
+                </div>
+                <div class="details">
+                   <h5 class="text-black fs-5 mb-1">Email</h5>
+                   <h6 class="text-dark fs-5 mb-1">Cost: 10000.00/ 1 Yea</h6>
+                   <p class="fw-semibold fs-6 m-0">Email address of the cardholder</p>
+                </div>
+                <!-- <div class="form-group w-md-50 w-100" *ngIf="subscriptinControl.value[i]?.checked">
+                    <label class="form-label fs-6 text-dark required">Purpose/Reason for reading data item</label>
+                    <textarea formControlName="reason" placeholder="Describe the issue" class="form-control w-100">          </textarea>
+               </div> -->
+             </div>
+          </div>
+       </div>
+          </div>
+        </div>
+        <div class="col-xl-2 col-md-12">
+          <div class="card shadow border-0 my-2" style="min-height: 110px;">
+            <div class="card-body py-4 px-4">
+                    <h6 class="text-dark fs-6 mb-1 text-end">Summary (Rs) Inc VAT</h6>
+                    <p class="text-end"><strong>Total</strong> &nbsp;Rs &nbsp;{{(totalSubscriptionsAmount).toFixed(2)}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div [class.d-none]="currentStep$.value !== 3">
+    <form [formGroup]="documentForm">
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Declaration:</h4>
+          <p class="fs-5 mt-10">I declare that - </p>
+          <ul>
+            <li class="fs-5 mt-5">
+              The particulars, information and documents submitted in connection with this application are, to
+              the best of my knowledge, true and correct; and
+            </li>
+            <li class="fs-5 mt-5">I have not wilfully concealed any material fact.</li>
+            <li class="fs-5 mt-5">
+              I am aware that in case I have produced any false document for the purpose of this application, I am
+              liable
+              to prosecution and my registration may be cancelled.
+            </li>
+            <div class="form-check ps-4 mt-7">
+              <input class="form-check-input" type="checkbox" id="terms" formControlName="terms" value="agree_terms" />
+              <label class="form-check-label fs-5 text-dark" for="terms">I have read and agreed to the <a
+                  href="{{terms}}" target="_blank">Terms of Use.</a></label>
+            </div>
+          </ul>
+          <div class="label fs-5 fw-semibold w-275px mb-2 mt-7 mb-7 me-3">Upload Document</div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-4 mb-7">
+              <div class="card bg-transparent border-dotted-1 h-100" (click)="generatePDF('download')">
+                <div class="card-body d-flex align-items-center cursor-pointer p-8">
+                  <div class="symbol symbol-60px mb-5 me-3">
+                    <img src="assets/media/misc/pdf.svg" class="" alt="">
+                  </div>
+                  <div>
+                    <p class="fs-5 fw-semibold mb-5">Download the declaration form and digitally sign the document.</p>
+                    <p class="fs-5 fw-semibold">Unsigned declaration form will be rejected.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-4 mb-7">
+              <div class="card bg-transparent border-dotted-1 h-100">
+                <label class="d-block cursor-pointer card-body p-8">
+                  <div class="d-table h-100 align-items-center cursor-pointer">
+                    <div class="symbol d-table-cell align-middle symbol-60px mb-5 pe-3">
+                      <img src="assets/media/misc/pdf.svg" class="" alt="">
+                    </div>
+                    <div class=" d-table-cell align-middle">
+                      <p class="fs-5 fw-semibold mb-5">Upload the signed declaration form</p>
+                      <!-- <p class="fs-5 fw-semibold">Image or PDF less than 2 MB.</p> -->
+                    </div>
+                  </div>
+                  <input type="file" class="form-control d-none" (change)="onFileSelected($event)"
+                    formControlName="formPdf" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'unsupportedFormat',
+                      message: 'Unsupported file (Allowed Only: jpg, jpeg, png, pdf)',
+                      control: documentForm.controls['formPdf']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Signed declaration form required',
+                      control: documentForm.controls['formPdf']}">
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'fileSizeExceeded',
+                    message: 'File Size should not exceed 5 MB!',
+                    control: documentForm.controls['formPdf']}">
+                  </ng-container>
+                </label>
+              </div>
+              <p class="mb-0 text-center">{{uploadedDoc}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="mt-5">
+    <div class="col-12 d-flex justify-content-between" *ngIf="isEditableForm">
+      <ng-container *ngIf="currentStep$.value === 1">
+        <button type="button" id="edit_agency_profile" class="btn btn-success" (click)="enableControls()">
+          Edit
+        </button>
+      </ng-container>
+      <ng-container *ngIf="currentStep$.value !== 1">
+        <button type="button" id="prev" class="btn btn-secondary" (click)="prevStep()">
+          Back
+        </button>
+      </ng-container>
+
+      <div>
+        <button type="button" class="btn btn-lg btn-primary me-3"
+          [disabled]="(currentStep$.value == 1 && (registerAgency.invalid || registerAgency.untouched)) || (currentStep$.value == 2 && subscriptionDisable()) || (currentStep$.value == 3 && documentForm.invalid)">
+          <span class="indicator-label">
+            <ng-container *ngIf="currentStep$.value <= formsCount - 1 && ( (isLoading$ | async) === false)">
+              <span (click)="nextStep()">Next</span>
+            </ng-container>
+            <ng-container *ngIf="(currentStep$.value === formsCount) && ( (isLoading$ | async) === false)">
+              <span (click)="submit()"> Submit for Approval </span>
+            </ng-container>
+            <ng-container *ngIf="isLoading$ | async">
+              <span class="indicator-progress" [style.display]="'block'">
+                Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            </ng-container>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container text-danger">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
+
+
+<!-- Modal -->
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="modal-header py-3">
+    <h2>View Document</h2>
+  </div>
+  <div class="doc-container mx-auto">
+    <div class="w-100 p-5">
+        <iframe class="responsive-iframe" [src]="documentUrl" ></iframe>
+        <!-- <img [src]="documentUrl" alt="document" class="img-fluid"> -->
+    </div>
+  </div>
+</app-modal>
+<!-- End -->
